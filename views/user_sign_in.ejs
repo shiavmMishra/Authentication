@@ -1,0 +1,46 @@
+<html>
+
+<head>
+    <title> <%= title %> </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"></script>
+    <link rel="stylesheet" href="/css/sign_in.css">
+    <link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
+        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+</head>
+
+<body>
+    <h1>Sign In</h1>
+    <div id="form">
+        <form action="/users/create-session" method="POST">
+            <input type="email" name="email" placeholder="Email" required id="inputs">
+            <input type="password" name="password" placeholder="Password" required id="inputs">
+            <input type="submit" value="Sign In" id="input-submit">
+        </form>
+    </div>
+    <div id="google-login">Sign in with <a href="/users/auth/google"><i class="fab fa-google"></i></a></div>
+    <script>
+        <% if (flash.success && flash.success.length > 0) {%>
+            new Noty({
+                theme: 'relax',
+                text: "<%= flash.success %>",
+                type: 'success',
+                layout: 'topRight',
+                timeout: 1500
+
+            }).show();    
+        <%} %>
+        <% if (flash.error && flash.error.length > 0) {%>
+            new Noty({
+                theme: 'relax',
+                text: "<%= flash.error %>",
+                type: 'error',
+                layout: 'topRight',
+                timeout: 1500
+
+            }).show();    
+        <%} %>
+    </script>
+</body>
+
+</html>

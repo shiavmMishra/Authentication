@@ -1,0 +1,31 @@
+body{
+    /* margin: 0; */
+    text-align: center;
+    width: 500px;
+    height: 430px;
+    margin: 10px 0 0 30%;
+    border: 1px solid black;
+}
+#inputs{
+    height: 40px;
+    width: 90%;
+    margin-bottom: 10px;
+}
+#input-submit{
+    background-color: teal;
+    height: 40px;
+    width: 90%;
+}
+#google-login{
+    font-size: 1.2rem;
+    margin-right: 68%; 
+}
+.g-recaptcha{
+    margin-left: 23px;
+    margin-bottom: 10px;;
+}
+#extra-sign{
+    font-size: 0.9rem;
+    margin-top: 10px;
+    margin-right: 67%; 
+}

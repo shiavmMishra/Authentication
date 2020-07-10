@@ -1,0 +1,39 @@
+<html>
+
+<head>
+    <title>
+        <%= title %>
+    </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"></script>
+    <link rel="stylesheet" href="css/user_profile.css">
+</head>
+
+<body>
+    <h1>Profile!</h1>
+    <ul style="list-style-type: none;">
+        <% if (locals.user){ %>
+        <li>
+            <%= user.name %>
+        </li>
+        <li>
+            <button><a href="/users/sign-out">Sign Out</a></button>
+            <a href="/users/reset-password" id="reset-password">Reset Password</a>
+        </li>
+        <% }%>
+    </ul>
+    <script>
+        <% if (flash.success && flash.success.length > 0) {%>
+            new Noty({
+                theme: 'relax',
+                text: "<%= flash.success %>",
+                type: 'success',
+                layout: 'topRight',
+                timeout: 1500
+
+            }).show();    
+        <%} %>
+    </script>
+</body>
+
+</html>

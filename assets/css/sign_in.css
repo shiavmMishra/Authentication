@@ -1,0 +1,27 @@
+body{
+    /* margin: 0; */
+    text-align: center;
+    width: 500px;
+    height: 250px;
+    margin: 10px 0 0 30%;
+    border: 1px solid black;
+}
+#inputs{
+    height: 40px;
+    width: 90%;
+    margin-bottom: 10px;
+}
+#input-submit{
+    margin-right: 74%;
+    height: 40px;
+    width: 80px;
+}
+#google-login{
+    font-size: 1.2rem;
+    margin-right: 68%; 
+}
+#forget-password{
+    float: right;
+    margin-right: 24px;
+    margin-top: -10px;
+}

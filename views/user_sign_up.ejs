@@ -1,0 +1,51 @@
+<html>
+
+<head>
+  <title> <%= title %> </title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"></script>
+  <script src='https://www.google.com/recaptcha/api.js'></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js"></script>
+  <link rel="stylesheet" href="/css/sign_up.css">
+  <link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
+    integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+</head>
+
+<body>
+  <h1>Sign Up</h1>
+  <form action="/users/create" method="POST">
+    <input type="text" name="name" placeholder="Your Name" required id="inputs">
+    <input type="email" name="email" placeholder="Your Email" required id="inputs">
+    <input type="password" name="password" placeholder="Password" required id="inputs">
+    <input type="password" name="confirm_password" placeholder="Confirm Password" required id="inputs">
+    <div class="g-recaptcha" data-sitekey="6LfwELAZAAAAAMJ6EJBsxkwH8ADnzI5W6ldhiOUs"></div>
+    <input type="submit" value="Sign Up" id="input-submit">
+  </form>
+  <div id="google-login">Sign in with <a href="/users/auth/google"><i class="fab fa-google"></i></a></div>
+  <div id="extra-sign">Already a user <a href="/users/sign-in"> Sign In</a></div>
+  <script>
+        <% if (flash.success && flash.success.length > 0) {%>
+      new Noty({
+        theme: 'relax',
+        text: "<%= flash.success %>",
+        type: 'success',
+        layout: 'topRight',
+        timeout: 1500
+
+      }).show();    
+        <%} %>
+        <% if (flash.error && flash.error.length > 0) {%>
+      new Noty({
+        theme: 'relax',
+        text: "<%= flash.error %>",
+        type: 'error',
+        layout: 'topRight',
+        timeout: 1500
+
+      }).show();    
+        <%} %>
+  </script>
+</body>
+
+</html>
