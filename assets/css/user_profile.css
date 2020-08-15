@@ -1,0 +1,46 @@
+h1 {
+  text-align: center;
+}
+img {
+  width: 150px;
+  height: 150px;
+}
+ul {
+  width: 15%;
+  margin-top: 50px;
+  margin-left: 42%;
+}
+#sign-out {
+  margin-left: 38%;
+  padding: 10px 20px;
+  font-size: 15px;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  /* color: #fff; */
+  /* background-color: #4caf50; */
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px #999;
+}
+#sign-out a {
+  text-decoration-line: none;
+  color: red;
+}
+#reset-password {
+  padding: 10px 20px;
+  font-size: 15px;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  /* color: #fff; */
+  /* background-color: #4caf50; */
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px #999;
+  margin-left: 10%;
+}
+#reset-password a {
+  text-decoration-line: none;
+  color: teal;
+}

@@ -1,39 +1,46 @@
 <html>
-
-<head>
+  <head>
     <title>
-        <%= title %>
+      <%= title %>
     </title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css"
+    />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"></script>
-    <link rel="stylesheet" href="css/user_profile.css">
-</head>
+    <link rel="stylesheet" href="/css/user_profile.css" />
+  </head>
 
-<body>
+  <body>
     <h1>Profile!</h1>
     <ul style="list-style-type: none;">
-        <% if (locals.user){ %>
-        <li>
-            <%= user.name %>
-        </li>
-        <li>
-            <button><a href="/users/sign-out">Sign Out</a></button>
-            <a href="/users/reset-password" id="reset-password">Reset Password</a>
-        </li>
-        <% }%>
+      <% if (locals.user){ %>
+      <li>
+        <span style="font-weight: bold; font-size: 1.5rem;">Welcome</span>
+        &nbsp; <%= user.name %>
+      </li>
+      <li>
+        <img
+          src="https://www.ekahiornish.com/wp-content/uploads/2018/07/default-avatar-profile-icon-vector-18942381.jpg"
+        />
+      </li>
+      <% }%>
     </ul>
+    <button id="sign-out"><a href="/users/sign-out">Sign Out</a></button>
+    <button id="reset-password">
+      <a href="/users/reset-password">Reset Password</a>
+    </button>
     <script>
-        <% if (flash.success && flash.success.length > 0) {%>
-            new Noty({
-                theme: 'relax',
-                text: "<%= flash.success %>",
-                type: 'success',
-                layout: 'topRight',
-                timeout: 1500
+      <% if (flash.success && flash.success.length > 0) {%>
+          new Noty({
+              theme: 'relax',
+              text: "<%= flash.success %>",
+              type: 'success',
+              layout: 'topRight',
+              timeout: 1500
 
-            }).show();    
-        <%} %>
+          }).show();
+      <%} %>
     </script>
-</body>
-
+  </body>
 </html>

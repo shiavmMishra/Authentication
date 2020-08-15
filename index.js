@@ -2,17 +2,20 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const app = express();
 const port = 8000;
-// const expressLayouts = require('express-ejs-layouts');
 const db = require('./config/mongoose');
 // used for session cookie
 const session = require('express-session');
+//passport
 const passport = require('passport');
-const passportLocal = require('./config/passport-local-strategy');
-const MongoStore = require('connect-mongo')(session);
 const passportGoogle = require('./config/passport-google-oauth2-strategy');
+const passportLocal = require('./config/passport-local-strategy');
+//mongo db
+const MongoStore = require('connect-mongo')(session);
 var bodyParser = require('body-parser');
+//flash
 const flash = require('connect-flash'); 
 const customMware = require('./config/middleware');
+//encrypt
 const Bcrypt = require("bcryptjs");
 require('dotenv').config(); 
 
