@@ -1,5 +1,5 @@
 const User = require("../models/user");
-const Bcrypt = require("bcryptjs");
+const Bcrypt = require("bcryptjs"); //To encrpyt the password.
 const request = require("request");
 require("dotenv").config();
 

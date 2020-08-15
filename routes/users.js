@@ -21,6 +21,7 @@ router.post(
   passport.setAuthenticatedUser,
   usersPage.createSession
 );
+//sign-out router
 router.get("/sign-out", usersPage.destroySession);
 router.get(
   "/auth/google",
