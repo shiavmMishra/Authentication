@@ -1,6 +1,5 @@
 const User = require("../models/user");
-const Bcrypt = require("bcryptjs"); //To encrpyt the password.
-const request = require("request");
+const bcrypt = require("bcryptjs"); //To encrpyt the password
 require("dotenv").config();
 
 module.exports.profile = function (req, res) {
@@ -8,6 +7,7 @@ module.exports.profile = function (req, res) {
     title: "User Profile",
   });
 };
+
 // render the sign up page
 module.exports.signUp = function (req, res) {
   if (req.isAuthenticated()) {
@@ -39,7 +39,6 @@ module.exports.create = function (req, res) {
     body = JSON.parse(body);
     if (body.success !== undefined && !body.success) {
       req.flash("error", "Failed Captcha Verification");
-      // console.log("Failed Captcha Verification");
       return;
     }
   });
@@ -47,7 +46,7 @@ module.exports.create = function (req, res) {
     req.flash("error", "Password must be same!");
     return res.redirect("back");
   }
-  req.body.password = Bcrypt.hashSync(req.body.password, 10);
+  req.body.password = bcrypt.hashSync(req.body.password, 10);
   User.create(req.body, function (err, user) {
     if (err) {
       console.log("error creating user in db");
@@ -59,27 +58,6 @@ module.exports.create = function (req, res) {
     req.flash("success", "Your Profile is Successfully Created");
     return res.redirect("/users/sign-in");
   });
-  // User.findOne({ email: req.body.email }, function (err, user) {
-  //   if (err) {
-  //     console.log("error in finding user in signing up");
-  //     return;
-  //   }
-
-  // if (!user) {
-  // req.body.password = Bcrypt.hashSync(req.body.password, 10);
-  //     User.create(req.body, function (err, user) {
-  //       if (err) {
-  //         req.flash("error", err);
-  //         return;
-  //       }
-  //       req.flash("success", "You have signed up, login to continue!");
-  //       return res.redirect("/users/sign-in");
-  //     });
-  //   } else {
-  //     req.flash("success", "Already Registered, login to continue!");
-  //     return res.redirect("back");
-  //   }
-  // });
 };
 
 // render the sign in page
@@ -98,36 +76,41 @@ module.exports.createSession = function (req, res) {
 };
 
 //render the reset password
-module.exports.resetPassword = function (req, res) {
-  return res.render("reset_password", {
-    title: "Reset Password ",
+module.exports.updatePassword = function (req, res) {
+  return res.render("update_password", {
+    title: "Update Password ",
   });
 };
+//Update the password
+module.exports.updatePwd = async function (req, res) {
+  if (req.user.id == req.params.id) {
+    try {
+      let user = await User.findById(req.params.id);
 
-module.exports.resetPwd = function (req, res) {
-  User.findById(req.user._id, function (err, user) {
-    if (err) {
-      console.log("Error in finding user in db");
-      return;
-    }
-    // if(Bcrypt.compareSync(req.body.current_password,req.body.password)){
-    if (req.body.new_password != req.body.confirm_new_password) {
-      console.log("Password does not match");
-      req.flash("error", "New Passwords must be same!");
+      if (
+        user &&
+        bcrypt.compareSync(req.body.current_password, user.password)
+      ) {
+        if (req.body.new_password != req.body.confirm_new_password) {
+          req.flash("error", "Passwords do not match");
+          return res.redirect("back");
+        }
+        user.password = bcrypt.hashSync(req.body.new_password, 10);
+        req.flash("success", "Password changed Successfully");
+        user.save();
+        return res.redirect("/users/profile");
+      } else {
+        req.flash("error", "Wrong Current Password");
+        return res.redirect("back");
+      }
+    } catch (err) {
+      req.flash("error", err);
       return res.redirect("back");
     }
-    if (req.body.password != req.body.new_passpowrd) {
-      console.log("Wrong password");
-      req.flash("error", "Wrong Password");
-      return res.redirect("back");
-    } else {
-      user.password = Bcrypt.hashSync(req.body.new_password, 10);
-      //   user.password = req.body.new_password;
-      user.save();
-      req.flash("success", "Passowrd Changed Successfully");
-      return res.redirect("/users/profile");
-    }
-  });
+  } else {
+    req.flash("error", "Unauthorized!");
+    return res.status(401).send("Unauthorized");
+  }
 };
 
 //Logout

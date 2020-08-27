@@ -21,6 +21,7 @@ router.post(
   passport.setAuthenticatedUser,
   usersPage.createSession
 );
+
 //sign-out router
 router.get("/sign-out", usersPage.destroySession);
 router.get(
@@ -34,12 +35,16 @@ router.get(
   usersPage.createSession
 );
 
-//Reset password
+//Update password
 router.get(
-  "/reset-password",
+  "/update-password/:id",
   passport.checkAuthentication,
-  usersPage.resetPassword
+  usersPage.updatePassword
 );
-router.post("/reset-pwd", usersPage.resetPwd);
+router.post(
+  "/update-pwd/:id",
+  passport.checkAuthentication,
+  usersPage.updatePwd
+);
 
 module.exports = router;
