@@ -1,5 +1,6 @@
 const User = require("../models/user");
 const bcrypt = require("bcryptjs"); //To encrpyt the password
+const request = require("request");
 require("dotenv").config();
 
 module.exports.profile = function (req, res) {
@@ -40,6 +41,10 @@ module.exports.create = function (req, res) {
     if (body.success !== undefined && !body.success) {
       req.flash("error", "Failed Captcha Verification");
       return;
+    } else if (error) {
+      console.log(err);
+      req.flash("error", err);
+      return res.redirect("back");
     }
   });
   if (req.body.password != req.body.confirm_password) {
@@ -82,34 +87,32 @@ module.exports.updatePassword = function (req, res) {
   });
 };
 //Update the password
-module.exports.updatePwd = async function (req, res) {
+module.exports.updatePwd = function (req, res) {
   if (req.user.id == req.params.id) {
-    try {
-      let user = await User.findById(req.params.id);
-
-      if (
-        user &&
-        bcrypt.compareSync(req.body.current_password, user.password)
-      ) {
-        if (req.body.new_password != req.body.confirm_new_password) {
-          req.flash("error", "Passwords do not match");
+    User.findById(req.params.id, function (err, user) {
+      if (err) {
+        req.flash("error", "Can not find the user");
+        console.log(err);
+        return res.redirect("back");
+      } else {
+        if (
+          user &&
+          bcrypt.compareSync(req.body.current_password, user.password)
+        ) {
+          if (req.body.new_password != req.body.confirm_new_password) {
+            req.flash("error", "Passwords do not match");
+            return res.redirect("back");
+          }
+          user.password = bcrypt.hashSync(req.body.new_password, 10);
+          req.flash("success", "Password changed Successfully");
+          user.save();
+          return res.redirect("/users/profile");
+        } else {
+          req.flash("error", "Wrong Current Password");
           return res.redirect("back");
         }
-        user.password = bcrypt.hashSync(req.body.new_password, 10);
-        req.flash("success", "Password changed Successfully");
-        user.save();
-        return res.redirect("/users/profile");
-      } else {
-        req.flash("error", "Wrong Current Password");
-        return res.redirect("back");
       }
-    } catch (err) {
-      req.flash("error", err);
-      return res.redirect("back");
-    }
-  } else {
-    req.flash("error", "Unauthorized!");
-    return res.status(401).send("Unauthorized");
+    });
   }
 };
 
